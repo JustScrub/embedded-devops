@@ -1,0 +1,6 @@
+---
+
+src_root: embedded-devops
+src_parent: "{{ ansible_env.HOME }}/python"
+src_path: "{{ src_parent }}/{{ src_root }}"
+src_venv: "{{ src_parent }}"

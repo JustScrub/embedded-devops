@@ -1,0 +1,20 @@
+{
+    "pass": "password",
+    "invocations": [
+        {
+            "args": ["config", "dump"]
+        },
+        {
+            "args": ["lib", "update-index"]
+        },
+        {
+            "args": ["core", "update-index"]
+        },
+        {
+            "args": ["lib", "install", "Servo"]
+        },
+        {
+            "args": ["core", "install", "arduino:samd"]
+        }
+    ]
+}

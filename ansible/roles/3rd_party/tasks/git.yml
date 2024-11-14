@@ -1,0 +1,5 @@
+- name: Download git
+  become: yes
+  ansible.builtin.package:
+    name: git
+    state: present

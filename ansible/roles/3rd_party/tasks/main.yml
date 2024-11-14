@@ -1,0 +1,8 @@
+- name: Get arduino-cli
+  include_tasks: arduino-cli.yml
+
+- name: Get git
+  include_tasks: git.yml
+
+- name: Get wget
+  include_tasks: wget.yml

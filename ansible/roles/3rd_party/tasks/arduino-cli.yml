@@ -1,0 +1,29 @@
+- name: Test for arduino-cli
+  ansible.builtin.command: ./arduino-cli version
+  register: arduino_cli_test
+  ignore_errors: yes
+  args:
+    chdir: "{{ src_path }}"
+
+- name: Create directory for arduino-cli
+  ansible.builtin.file:
+    path: "{{ src_path }}"
+    state: directory
+  when: arduino_cli_test.rc != 0
+
+- name: Install arduino-cli
+  ansible.builtin.shell: "curl -fsSL
+    https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | 
+    BINDIR={{ src_path }} sh"
+  when: arduino_cli_test.rc != 0
+
+- name: Create alias for arduino-cli
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    line: "alias arduino-cli='{{ src_path }}/arduino-cli'"
+    create: yes
+  when: arduino_cli_test.rc != 0
+
+- name: update core index and install avr core
+  ansible.builtin.shell: "arduino-cli core update-index && arduino-cli core install arduino:avr"
+  when: arduino_cli_test.rc != 0

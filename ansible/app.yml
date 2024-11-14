@@ -1,0 +1,4 @@
+- name: Download app
+  hosts: rpi
+  roles:
+    - role: project

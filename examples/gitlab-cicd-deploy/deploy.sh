@@ -1,0 +1,1 @@
+curl -H 'Content-Type: application/json' -d '{"code": "'$REPO_URL'", "upload": "true", "pass": "'$APP_PASSWORD'"}' -k -X POST $NODE_IP/api/v1/compile

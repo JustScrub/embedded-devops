@@ -1,0 +1,3 @@
+dependencies:
+  - role: python3
+  - role: 3rd_party

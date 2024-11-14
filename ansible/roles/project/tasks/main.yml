@@ -1,0 +1,36 @@
+- name: Stop Flask app
+  ansible.builtin.shell: "pkill -f main.py"
+  ignore_errors: yes
+
+- name: Create app directory
+  ansible.builtin.file:
+    path: "{{ src_path }}"
+    state: directory
+
+- name: Copy app files
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../{{ item }}"
+    dest: "{{ src_path }}"
+  loop:
+    - main.py
+    - config.py
+    - requirements.txt
+    - README.md
+
+- name: Install requirements
+  ansible.builtin.pip: 
+    requirements: "{{ src_path }}/requirements.txt"
+    virtualenv: "{{ src_venv }}"
+    virtualenv_python: python3
+
+- name: Create run script
+  ansible.builtin.template:
+    src: run.sh.j2
+    dest: "{{ src_path }}/run.sh"
+    mode: 0755
+
+- name: Start Flask app
+  ansible.builtin.shell: "{{ src_path }}/run.sh"
+  async: 0
+  poll: 0
+  ignore_errors: yes

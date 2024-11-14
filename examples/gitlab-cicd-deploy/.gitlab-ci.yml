@@ -1,0 +1,17 @@
+variables:
+  NODE_IP: localhost:5000
+  REPO_URL: https://github.com/schacon/blink.git
+#  REPO_URL: https://github.com/JustScrub/arduino-blink.git
+#  REPO_URL: https://github.com/denilson-polonio/greenhouse-arduino.git
+  APP_PASSWORD: password
+
+stages:
+ - deploy
+
+deploy-to-uno:
+  stage: deploy
+  image: curlimages/curl:latest
+
+  script:
+    - echo "Deploying to Uno"
+    - source ./deploy.sh

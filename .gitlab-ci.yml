@@ -1,0 +1,39 @@
+default:
+  image: scrub0zcu/dsa-env-container:0.0.0
+  tags:
+    - kiv
+
+stages:
+  - test
+  - deploy
+
+.cfg_container: &cfg_container
+  ## VPN setup
+  - echo "10.88.99.254 gw" >> /etc/hosts
+  - echo "$ANSIBLE_IP pi5" >> /etc/hosts
+  - vpn-up
+
+  ## App config
+  - cp $APP_CONFIG ./config.py
+
+test-conn:
+  stage: test
+  before_script:
+    - *cfg_container
+
+  script:
+    - cat ./config.py
+    - file /dev/net/tun
+    - echo "Hello $ANSIBLE_IP"
+    - ping -c 4 $ANSIBLE_IP
+
+deploy-prod:
+  stage: deploy
+  before_script:
+    - *cfg_container
+
+  script:
+    - ansible-playbook -i ansible/inventories/hosts ansible/app.yml --extra-vars "ansible_password=$ANSIBLE_RMT_PASSWD"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - when: manual

@@ -1,0 +1,2 @@
+source {{ src_venv }}/bin/activate 
+nohup python {{ src_path }}/main.py >> {{ src_path }}/flask_out.txt 2>> {{ src_path }}/flask_err.txt &

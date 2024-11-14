@@ -1,0 +1,4 @@
+{
+    "pass": "password",
+    "libraries": ["Time", "LiquidCrystal I2C"]
+}
